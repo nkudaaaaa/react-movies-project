@@ -1,25 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 
-class Search extends React.Component {
-    state = {
-        search: '',
-        type: 'all',
-    }
+const  Search = (props) => {
 
-    handleKey = (e) => {
+    const {
+        searchMovies = Function.prototype
+    } = props;
+
+    const [search, setSearch] = useState('');
+    const [type, setType] = useState('all');
+
+
+    const handleKey = (e) => {
         if (e.key === 'Enter') {
-            this.props.searchMovies(this.state.search, this.state.type ='all');
+            searchMovies(search, type);
         }
     }
 
-    handleRadioChange = (name) => {
-        console.log(name);
-        this.setState({type: name});
-        console.log(this.state.type);
+    const handleRadioChange = (name) => {
+        setType(name);
         
     }
 
-    render() {
+
         return  <div className="row">
           <div className="input-field">
             <input 
@@ -27,22 +29,22 @@ class Search extends React.Component {
                 id="email_inline" 
                 type="search" 
                 className="validate" 
-                value={this.state.search}
-                onChange={(e) => this.setState({search: e.target.value})}
-                onKeyDown={this.handleKey}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={handleKey}
             />
-            <button className='btn search-btn' onClick={() => this.props.searchMovies(this.state.search, this.state.type)}>Search</button> <br />
+            <button className='btn search-btn' onClick={() => searchMovies(search, type)}>Search</button> <br />
             <div className="filter">
                 <label>
-                <input name="All" type="radio" checked={this.state.type === 'all'} onChange={() => this.handleRadioChange('all')}/>
+                <input name="All" type="radio" checked={type === 'all'} onChange={() => handleRadioChange('all')}/>
                 <span>All</span>
                 </label>
                 <label>
-                <input name="Movies" type="radio" checked={this.state.type === 'movie'} onChange={() => this.handleRadioChange('movie')}/>
+                <input name="Movies" type="radio" checked={type === 'movie'} onChange={() => handleRadioChange('movie')}/>
                 <span>Movies</span>
                 </label>
                 <label>
-                <input name="Series" type="radio" checked={this.state.type === 'series'} onChange={() => this.handleRadioChange('series')}/>
+                <input name="Series" type="radio" checked={type === 'series'} onChange={() => handleRadioChange('series')}/>
                 <span>Series</span>
                 </label>
             </div>
@@ -50,6 +52,5 @@ class Search extends React.Component {
         </div>
 
     }
-}
 
 export {Search}
